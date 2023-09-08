@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:package_info/package_info.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:restismob/models/localTypes/TextInputAlert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -38,8 +38,9 @@ class SettingsState extends State<Settings> {
     _initPackageInfo();
     _prefs.then((SharedPreferences prefs) {
       return prefs.getString('ipadress') ?? ' Не задан';
-    }).then((value) { value.isNotEmpty?
-      global.uri = value : global.uri = ' Не задан';});
+    }).then((value) {
+      value.isNotEmpty ? global.uri = value : global.uri = ' Не задан';
+    });
   }
 
   Future<void> _initPackageInfo() async {
@@ -92,7 +93,8 @@ class SettingsState extends State<Settings> {
       body: Column(
         children: [
           Card(
-              margin: const EdgeInsets.all(5), child: _infoTile('Версия приложения :', _packageInfo.version)),
+              margin: const EdgeInsets.all(5),
+              child: _infoTile('Версия приложения :', _packageInfo.version)),
           Card(
             margin: const EdgeInsets.all(5),
             child: ListTile(
@@ -108,18 +110,19 @@ class SettingsState extends State<Settings> {
                   icon: const Icon(Icons.arrow_forward_ios),
                   onPressed: () {
                     showDialog(
-                            context: context, builder: (_) => const TextInputAlert(title: 'Введите адрес и порт'))
-                        .then((value) => {
-                              if (value != null)
-                                {
-                                  _prefs.then((SharedPreferences prefs) {
-                                    prefs.setString('ipadress', value).then(
-                                          (bool success) => global.uri = value,
-                                        );
-                                    setState(() {});
-                                  }),
-                                }
-                            });
+                        context: context,
+                        builder: (_) => const TextInputAlert(
+                            title: 'Введите адрес и порт')).then((value) => {
+                          if (value != null)
+                            {
+                              _prefs.then((SharedPreferences prefs) {
+                                prefs.setString('ipadress', value).then(
+                                      (bool success) => global.uri = value,
+                                    );
+                                setState(() {});
+                              }),
+                            }
+                        });
                   }),
             ),
           ),
